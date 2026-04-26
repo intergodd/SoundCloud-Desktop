@@ -69,7 +69,7 @@ export const PlaylistCard = React.memo(
               decoding="async"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/[0.04] to-transparent">
+            <div className="w-full h-full flex items-center justify-center bg-white/[0.04]">
               <ListMusic size={32} className="text-white/10" />
             </div>
           )}

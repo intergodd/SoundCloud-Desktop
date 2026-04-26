@@ -101,7 +101,7 @@ const DownloadProgressPanel = React.memo(() => {
 
 /* ── Progress Slider ─────────────────────────────────────────── */
 
-export const ProgressSlider = React.memo(() => {
+export const ProgressSlider = React.memo(({ compact = false }: { compact?: boolean }) => {
   const duration = useSyncExternalStore(subscribe, getDuration);
 
   const [dragging, setDragging] = useState(false);
@@ -167,14 +167,22 @@ export const ProgressSlider = React.memo(() => {
 
   return (
     <Slider.Root
-      className="relative flex items-center w-full h-5 cursor-pointer group select-none touch-none"
+      className={
+        compact
+          ? 'absolute left-5 right-5 top-0 z-10 flex items-center h-2 cursor-pointer group select-none touch-none'
+          : 'relative flex items-center w-full h-5 cursor-pointer group select-none touch-none'
+      }
       value={[displayValue]}
       max={duration || 1}
       step={0.1}
       onValueChange={onValueChange}
       onValueCommit={onValueCommit}
     >
-      <Slider.Track className="relative h-[3px] grow rounded-full bg-white/[0.08] group-hover:h-[5px] transition-all duration-150">
+      <Slider.Track
+        className={`relative grow rounded-full bg-white/[0.08] transition-all duration-150 ${
+          compact ? 'h-[2px] group-hover:h-[3px]' : 'h-[3px] group-hover:h-[5px]'
+        }`}
+      >
         <Slider.Range
           ref={rangeRef}
           className="absolute h-full rounded-full bg-accent will-change-transform"
@@ -248,13 +256,13 @@ const ControlVolumeBtn = React.memo(({ size = 'default' }: { size?: 'default' | 
       setVolume: s.setVolume,
     })),
   );
-  const s = size === 'sm' ? 'w-9 h-9' : 'w-10 h-10';
+  const s = size === 'sm' ? 'w-8 h-8' : 'w-9 h-9';
   return (
     <button
       type="button"
       onClick={() => setVolume(volume > 0 ? 0 : volumeBeforeMute)}
-      className={`${s} rounded-full flex items-center justify-center transition-all duration-150 ease-[var(--ease-apple)] cursor-pointer hover:bg-white/[0.04] ${
-        volume === 0 ? 'text-accent' : 'text-white/40 hover:text-white/70'
+      className={`${s} rounded-[12px] flex items-center justify-center transition-all duration-150 ease-[var(--ease-apple)] cursor-pointer hover:bg-white/[0.05] ${
+        volume === 0 ? 'bg-white text-black' : 'text-white/45 hover:text-white'
       }`}
     >
       {volume === 0 ? volumeXIcon16 : volume < 50 ? volume1Icon16 : volume2Icon16}
@@ -383,8 +391,8 @@ function LikeButton({ trackUrn }: { trackUrn: string }) {
 /* ── Isolated control buttons ────────────────────────────────── */
 
 const btnClass = (active: boolean, size: 'default' | 'sm') =>
-  `${size === 'sm' ? 'w-9 h-9' : 'w-10 h-10'} rounded-full flex items-center justify-center transition-all duration-150 ease-[var(--ease-apple)] cursor-pointer hover:bg-white/[0.04] ${
-    active ? 'text-accent' : 'text-white/40 hover:text-white/70'
+  `${size === 'sm' ? 'w-8 h-8' : 'w-9 h-9'} rounded-[12px] flex items-center justify-center transition-all duration-150 ease-[var(--ease-apple)] cursor-pointer hover:bg-white/[0.05] ${
+    active ? 'bg-white text-black' : 'text-white/45 hover:text-white'
   }`;
 
 const PlayPauseBtn = React.memo(() => {
@@ -394,7 +402,7 @@ const PlayPauseBtn = React.memo(() => {
     <button
       type="button"
       onClick={togglePlay}
-      className="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center text-black hover:bg-white hover:scale-105 active:scale-95 transition-all duration-200 ease-[var(--ease-apple)] cursor-pointer mx-1.5"
+      className="w-10 h-10 rounded-[14px] bg-white flex items-center justify-center text-black hover:bg-white/90 hover:scale-[1.03] active:scale-95 transition-all duration-150 ease-[var(--ease-apple)] cursor-pointer mx-1 shadow-[0_14px_34px_rgba(0,0,0,0.34)]"
     >
       {isPlaying ? pauseBlack20 : playBlack20}
     </button>
@@ -481,16 +489,18 @@ const TrackInfo = React.memo(() => {
 
   if (!currentTrack) {
     return (
-      <div className="flex items-center gap-3.5 w-[340px] min-w-0">
-        <p className="text-[13px] text-white/15">Not playing</p>
+      <div className="flex items-center gap-3 w-[300px] min-w-0">
+        <p className="text-[10px] text-white/25 uppercase tracking-[0.18em] font-black">
+          Not playing
+        </p>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center gap-3.5 w-[340px] min-w-0">
+    <div className="flex items-center gap-3 w-[300px] min-w-0">
       <div
-        className="relative w-14 h-14 rounded-[10px] shrink-0 overflow-hidden cursor-pointer shadow-xl shadow-black/40 ring-1 ring-white/[0.06] hover:ring-white/[0.12] transition-all duration-200 group/art"
+        className="relative w-10 h-10 rounded-[12px] shrink-0 overflow-hidden cursor-pointer shadow-xl shadow-black/40 ring-1 ring-white/[0.09] hover:ring-white/[0.16] transition-all duration-150 group/art"
         onClick={() => openLyricsPanel({ rightPanelOpen: false })}
       >
         {artworkSmall ? (
@@ -513,14 +523,14 @@ const TrackInfo = React.memo(() => {
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-1.5 min-w-0">
           <p
-            className="text-[13px] text-white/90 truncate font-medium cursor-pointer hover:text-white leading-tight transition-colors"
+            className="text-[12px] text-white/95 truncate font-black cursor-pointer hover:text-white leading-tight transition-colors"
             onClick={() => navigate(`/track/${encodeURIComponent(currentTrack.urn)}`)}
           >
             {currentTrack.title}
           </p>
         </div>
         <p
-          className="text-[11px] text-white/35 truncate mt-1 cursor-pointer hover:text-white/55 transition-colors"
+          className="text-[10px] text-white/45 truncate mt-0.5 cursor-pointer hover:text-white/65 transition-colors"
           onClick={() => navigate(`/user/${encodeURIComponent(currentTrack.user.urn)}`)}
         >
           {currentTrack.user.username}
@@ -558,14 +568,14 @@ const BackgroundGlow = React.memo(() => {
 export const NowPlayingBar = React.memo(
   ({ onQueueToggle, queueOpen }: { onQueueToggle: () => void; queueOpen: boolean }) => {
     return (
-      <div className="shrink-0 relative">
+      <div className="swlz-player-shell shrink-0 relative">
         <BackgroundGlow />
         {/* Isolated layer — repaints here won't cascade to blur background */}
-        <div className="relative" style={{ isolation: 'isolate' }}>
+        <div className="swlz-player-panel relative" style={{ isolation: 'isolate' }}>
           <DownloadProgressPanel />
-          <ProgressSlider />
+          <ProgressSlider compact />
 
-          <div className="h-[76px] flex items-center px-5 gap-3 relative">
+          <div className="h-[58px] flex items-center px-4 gap-3 relative">
             {/* Left: track info */}
             <TrackInfo />
 
@@ -582,12 +592,12 @@ export const NowPlayingBar = React.memo(
             </div>
 
             {/* Right: volume + queue */}
-            <div className="flex items-center gap-0.5 w-[250px] justify-end">
+            <div className="flex items-center gap-0.5 w-[230px] justify-end">
               <EqBtn />
               <LyricsBtn />
               <QueueBtn onClick={onQueueToggle} active={queueOpen} />
               <ControlVolumeBtn size="sm" />
-              <VolumeSlider className="w-[100px]" />
+              <VolumeSlider className="w-[82px]" />
               <VolumeLabel />
             </div>
           </div>

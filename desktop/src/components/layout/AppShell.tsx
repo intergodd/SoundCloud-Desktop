@@ -355,13 +355,16 @@ export const AppShell = React.memo(() => {
   }, [navigate, queueOpen, kbOpen]);
 
   return (
-    <div className="flex flex-col h-screen relative overflow-hidden">
+    <div className="swlz-app-frame flex flex-col h-screen relative overflow-hidden">
       <CustomBackground />
       <AmbientGlow />
       <Titlebar />
-      <div className="flex flex-1 min-h-0 relative z-10" style={{ isolation: 'isolate' }}>
+      <div
+        className="swlz-content-row flex flex-1 min-h-0 relative z-10"
+        style={{ isolation: 'isolate' }}
+      >
         <Sidebar />
-        <main className="flex-1 overflow-y-auto overflow-x-hidden">
+        <main className="swlz-main flex-1 overflow-y-auto overflow-x-hidden">
           <StableOutlet />
         </main>
       </div>

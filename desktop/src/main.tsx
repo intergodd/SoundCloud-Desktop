@@ -17,13 +17,6 @@ useSettingsStore.persist.onFinishHydration((state) => {
   }
 });
 
-if (import.meta.env.DEV) {
-  const script = document.createElement('script');
-  script.src = 'https://unpkg.com/react-scan/dist/auto.global.js';
-  script.crossOrigin = 'anonymous';
-  document.head.appendChild(script);
-}
-
 function scheduleAfterFirstPaint(task: () => void) {
   requestAnimationFrame(() => {
     requestAnimationFrame(() => {
@@ -59,6 +52,19 @@ async function fixWebviewScale() {
   } catch {}
 }
 
+async function resolveServerPorts(): Promise<[number, number] | null> {
+  if (!(window as Window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__) {
+    return null;
+  }
+
+  try {
+    return await invoke<[number, number]>('get_server_ports');
+  } catch (error) {
+    console.warn('[Bootstrap] Tauri server ports unavailable, rendering without local proxy:', error);
+    return null;
+  }
+}
+
 async function bootstrap() {
   await fixWebviewScale();
   await useSettingsStore.persist.rehydrate();
@@ -66,8 +72,11 @@ async function bootstrap() {
   const settings = useSettingsStore.getState();
   await changeAppLanguage(settings.language);
 
-  const [staticPort, proxyPort] = await invoke<[number, number]>('get_server_ports');
-  setServerPorts(staticPort, proxyPort);
+  const serverPorts = await resolveServerPorts();
+  if (serverPorts) {
+    const [staticPort, proxyPort] = serverPorts;
+    setServerPorts(staticPort, proxyPort);
+  }
 
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>

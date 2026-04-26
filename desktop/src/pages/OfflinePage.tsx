@@ -54,18 +54,18 @@ const StatusBadge = React.memo(function StatusBadge() {
 
   const config = {
     offline: {
-      border: 'border-sky-400/20',
-      bg: 'bg-sky-400/10',
-      text: 'text-sky-100/90',
-      glow: 'shadow-[0_0_20px_rgba(56,189,248,0.08)]',
+      border: 'border-white/14',
+      bg: 'bg-white/[0.06]',
+      text: 'text-white/82',
+      glow: 'shadow-[0_14px_36px_rgba(0,0,0,0.24)]',
       icon: <Globe size={12} />,
       label: t('offline.offlineBadge'),
     },
     online: {
-      border: 'border-emerald-400/20',
-      bg: 'bg-emerald-400/10',
-      text: 'text-emerald-100/90',
-      glow: 'shadow-[0_0_20px_rgba(52,211,153,0.08)]',
+      border: 'border-white/14',
+      bg: 'bg-white/[0.06]',
+      text: 'text-white/82',
+      glow: 'shadow-[0_14px_36px_rgba(0,0,0,0.24)]',
       icon: <Download size={12} />,
       label: t('offline.readyBadge'),
     },
@@ -96,11 +96,11 @@ const PendingBadge = React.memo(function PendingBadge({
 
   return (
     <div className="inline-flex flex-wrap items-center gap-2">
-      <div className="inline-flex items-center gap-1.5 rounded-full border border-accent/18 bg-accent/[0.10] px-3 py-1.5 text-[11px] font-semibold text-white/78 shadow-[0_0_16px_rgba(255,85,0,0.08)] backdrop-blur-sm">
+      <div className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.05] px-3 py-1.5 text-[11px] font-semibold text-white/78 shadow-[0_0_16px_rgba(255,255,255,0.08)] backdrop-blur-sm">
         <Clock size={11} />
         {t('offline.pendingCount', { count: stats.pending })}
         {stats.failed > 0 && (
-          <span className="ml-1 text-rose-300/80">
+          <span className="ml-1 text-white/70">
             ({t('offline.failedCount', { count: stats.failed })})
           </span>
         )}
@@ -109,7 +109,7 @@ const PendingBadge = React.memo(function PendingBadge({
         type="button"
         onClick={onSync}
         disabled={syncing}
-        className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-accent/18 bg-accent/[0.10] px-3 py-1.5 text-[11px] font-semibold text-white/78 transition-all hover:bg-accent/[0.16] disabled:opacity-50"
+        className="inline-flex cursor-pointer items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.05] px-3 py-1.5 text-[11px] font-semibold text-white/78 transition-all hover:bg-white/[0.08] disabled:opacity-50"
       >
         <RefreshCw size={11} className={syncing ? 'animate-spin' : ''} />
         {t('offline.syncNow')}
@@ -179,7 +179,7 @@ const OfflineTrackRow = React.memo(function OfflineTrackRow({
 
       <div className="hidden shrink-0 items-center gap-2 sm:flex">
         {showCachedBadge ? (
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-400/16 bg-emerald-400/8 px-2.5 py-1 text-[11px] font-medium text-emerald-100/80">
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-white/12 bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/62">
             <Download size={12} />
             {t('offline.cached')}
           </span>
@@ -210,19 +210,19 @@ const OverviewMetric = React.memo(function OverviewMetric({
 }) {
   const styles = {
     likes: {
-      border: 'border-accent/16',
-      bg: 'bg-accent/[0.08]',
-      icon: 'border-accent/18 bg-accent/[0.14] text-white/88',
+      border: 'border-white/12',
+      bg: 'bg-white/[0.045]',
+      icon: 'border-white/12 bg-accent/[0.14] text-white/88',
     },
     playable: {
-      border: 'border-emerald-400/16',
-      bg: 'bg-emerald-400/[0.08]',
-      icon: 'border-emerald-400/16 bg-emerald-400/[0.12] text-emerald-50',
+      border: 'border-white/12',
+      bg: 'bg-white/[0.045]',
+      icon: 'border-white/12 bg-white/[0.07] text-white/84',
     },
     cached: {
-      border: 'border-sky-400/16',
-      bg: 'bg-sky-400/[0.08]',
-      icon: 'border-sky-400/16 bg-sky-400/[0.12] text-sky-50',
+      border: 'border-white/12',
+      bg: 'bg-white/[0.045]',
+      icon: 'border-white/12 bg-white/[0.07] text-white/84',
     },
   }[tone];
 
@@ -262,18 +262,18 @@ const SectionSwitchCard = React.memo(function SectionSwitchCard({
 }) {
   const styles = {
     likes: {
-      activeBorder: 'border-accent/18',
-      activeBg: 'bg-accent/[0.09]',
-      activeIcon: 'border-accent/18 bg-accent/[0.14] text-white/88',
-      activeCount: 'border-accent/18 bg-accent/[0.14] text-white/88',
-      glow: 'shadow-[0_18px_50px_rgba(255,85,0,0.08)]',
+      activeBorder: 'border-white/12',
+      activeBg: 'bg-white/[0.055]',
+      activeIcon: 'border-white/12 bg-accent/[0.14] text-white/88',
+      activeCount: 'border-white/12 bg-accent/[0.14] text-white/88',
+      glow: 'shadow-[0_18px_50px_rgba(255,255,255,0.08)]',
     },
     cached: {
-      activeBorder: 'border-sky-400/18',
-      activeBg: 'bg-sky-400/[0.08]',
-      activeIcon: 'border-sky-400/16 bg-sky-400/[0.14] text-sky-50',
-      activeCount: 'border-sky-400/16 bg-sky-400/[0.14] text-sky-50',
-      glow: 'shadow-[0_18px_50px_rgba(56,189,248,0.08)]',
+      activeBorder: 'border-white/14',
+      activeBg: 'bg-white/[0.045]',
+      activeIcon: 'border-white/12 bg-white/[0.08] text-white/84',
+      activeCount: 'border-white/12 bg-white/[0.08] text-white/84',
+      glow: 'shadow-[0_18px_50px_rgba(0,0,0,0.28)]',
     },
   }[tone];
 
@@ -349,16 +349,16 @@ function OfflineSection({
   const playableQueue = useMemo(() => buildPlayableQueue(items, cachedUrns), [items, cachedUrns]);
   const styles = {
     likes: {
-      border: 'border-accent/14',
-      icon: 'border-accent/18 bg-accent/[0.14] text-white/88',
-      badge: 'border-accent/18 bg-accent/[0.14] text-white/88',
-      glow: 'bg-[radial-gradient(circle_at_top_left,rgba(255,85,0,0.18),transparent_58%)]',
+      border: 'border-white/12',
+      icon: 'border-white/12 bg-accent/[0.14] text-white/88',
+      badge: 'border-white/12 bg-accent/[0.14] text-white/88',
+      glow: 'bg-white/[0.03]',
     },
     cached: {
-      border: 'border-sky-400/14',
-      icon: 'border-sky-400/16 bg-sky-400/[0.14] text-sky-50',
-      badge: 'border-sky-400/16 bg-sky-400/[0.14] text-sky-50',
-      glow: 'bg-[radial-gradient(circle_at_top_left,rgba(56,189,248,0.18),transparent_58%)]',
+      border: 'border-white/12',
+      icon: 'border-white/12 bg-white/[0.08] text-white/84',
+      badge: 'border-white/12 bg-white/[0.08] text-white/84',
+      glow: 'bg-white/[0.03]',
     },
   }[tone];
 
@@ -568,26 +568,16 @@ export const OfflinePage = React.memo(() => {
   return (
     <div className="relative min-h-full overflow-hidden px-6 py-6 md:px-8 md:py-8">
       <div
-        className="pointer-events-none absolute inset-0"
-        style={{ contain: 'strict', transform: 'translateZ(0)' }}
-      >
-        <div className="absolute left-[-10%] top-[-8%] h-[480px] w-[480px] rounded-full bg-accent/[0.07] blur-[140px]" />
-        <div className="absolute bottom-[-14%] right-[-10%] h-[520px] w-[520px] rounded-full bg-sky-400/[0.05] blur-[160px]" />
-      </div>
-
-      <div
         className="relative mx-auto flex w-full max-w-[1180px] flex-col gap-5"
         style={{ isolation: 'isolate' }}
       >
-        <section className="relative overflow-hidden rounded-[38px] border border-white/10 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] p-[1px] shadow-[0_24px_80px_rgba(0,0,0,0.28),0_0_1px_rgba(255,255,255,0.1)] backdrop-blur-[40px]">
-          <div className="pointer-events-none absolute inset-0 rounded-[38px] bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.06),transparent_60%)]" />
-
-          <div className="relative rounded-[37px] bg-black/25 px-5 py-5 md:px-6 md:py-6">
+        <section className="relative overflow-hidden rounded-[30px] border border-white/12 bg-white/[0.045] p-[1px] shadow-[0_24px_80px_rgba(0,0,0,0.28)] backdrop-blur-[36px]">
+          <div className="relative rounded-[29px] bg-black/20 px-5 py-5 md:px-6 md:py-6">
             <div className="flex flex-col gap-5 xl:flex-row xl:items-start xl:justify-between">
               <div className="max-w-3xl">
                 <StatusBadge />
 
-                <h1 className="mt-4 text-[30px] font-semibold tracking-[-0.05em] text-white/94 md:text-[34px]">
+                <h1 className="mt-4 text-[30px] font-black tracking-normal text-white/94 md:text-[34px]">
                   {statusTitle}
                 </h1>
               </div>

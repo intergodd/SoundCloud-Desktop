@@ -56,10 +56,10 @@ function extractColor(src: string): Promise<[number, number, number]> {
         }
         resolve([Math.round(r / n), Math.round(g / n), Math.round(b / n)]);
       } catch {
-        resolve([255, 85, 0]);
+        resolve([255, 255, 255]);
       }
     };
-    img.onerror = () => resolve([255, 85, 0]);
+    img.onerror = () => resolve([255, 255, 255]);
     img.src = src;
   });
 }
@@ -259,7 +259,7 @@ const TrackColumn = React.memo(({ track, maxArt }: { track: Track; maxArt?: stri
 /* ── Shared: color hook ───────────────────────────────────── */
 
 function useArtworkColor(artworkUrl: string | null) {
-  const colorRef = useRef<[number, number, number]>([255, 85, 0]);
+  const colorRef = useRef<[number, number, number]>([255, 255, 255]);
   const prevArtRef = useRef<string | null>(null);
 
   useEffect(() => {

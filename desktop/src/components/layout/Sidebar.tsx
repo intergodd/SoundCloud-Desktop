@@ -21,7 +21,6 @@ import { useAppStatusStore } from '../../stores/app-status';
 import { useAuthStore } from '../../stores/auth';
 import { useSettingsStore } from '../../stores/settings';
 import { Avatar } from '../ui/Avatar';
-import { StarBadge, StarCard, StarModal, useStarSubscription } from './StarSubscription';
 
 const languages = [
   { code: 'en', label: 'English' },
@@ -49,47 +48,48 @@ export const Sidebar = React.memo(() => {
       toggleSidebar: s.toggleSidebar,
     })),
   );
-  const { isPremium, modalOpen, setModalOpen, openModal } = useStarSubscription();
-
   const toggleLanguage = () => {
     const next = i18n.language === 'ru' ? 'en' : 'ru';
     void changeAppLanguage(next);
   };
 
   const currentLang = languages.find((l) => l.code === i18n.language) ?? languages[0];
+  const navIconSize = collapsed ? 21 : 18;
+  const utilityIconSize = collapsed ? 22 : 16;
 
   return (
     <aside
-      className="shrink-0 flex flex-col h-full border-r border-white/[0.04] transition-[width] duration-200 ease-[var(--ease-apple)]"
-      style={{ width: collapsed ? 56 : 200 }}
+      className="swlz-sidebar shrink-0 flex flex-col h-full transition-[width] duration-200 ease-[var(--ease-apple)]"
+      data-collapsed={collapsed ? 'true' : 'false'}
+      style={{ width: collapsed ? 72 : 214 }}
     >
-      <nav className="flex flex-col gap-0.5 px-2 pt-2">
+      <nav className="flex flex-col gap-2">
         {navItems.map((item) => (
           <NavLink
             key={item.to}
             to={item.to}
             title={collapsed ? t(item.label) : undefined}
             className={({ isActive }) =>
-              `flex items-center gap-3 rounded-xl text-[13px] font-medium transition-all duration-200 ease-[var(--ease-apple)] ${
+              `swlz-nav-link flex items-center gap-3 transition-all duration-200 ease-[var(--ease-apple)] ${
                 collapsed ? 'justify-center px-0 py-2.5' : 'px-3 py-2.5'
               } ${
                 isActive
-                  ? 'text-white bg-white/[0.07] shadow-[inset_0_0.5px_0_rgba(255,255,255,0.1)]'
+                  ? 'swlz-nav-link-active shadow-[inset_0_0.5px_0_rgba(255,255,255,0.1)]'
                   : item.to === '/offline' && appMode !== 'online'
-                    ? 'text-white/82 bg-accent/[0.08] ring-1 ring-accent/15'
-                    : 'text-white/40 hover:text-white/70 hover:bg-white/[0.04]'
+                    ? 'text-white bg-white/[0.08] ring-1 ring-white/15'
+                    : ''
               }`
             }
           >
-            <item.icon size={18} strokeWidth={1.8} />
+            <item.icon size={navIconSize} strokeWidth={1.8} />
             {!collapsed && t(item.label)}
           </NavLink>
         ))}
       </nav>
 
-      <div className="px-2 pt-4 space-y-1">
+      <div className="pt-4 space-y-2">
         {!collapsed && (
-          <div className="px-3 pb-1 flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-white/20 font-semibold">
+          <div className="px-3 pb-1 flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-white/30 font-black">
             <MapPin size={11} strokeWidth={1.8} />
             {t('sidebar.quickAccess')}
           </div>
@@ -99,16 +99,16 @@ export const Sidebar = React.memo(() => {
           to="/library?tab=history"
           title={collapsed ? t('library.history') : undefined}
           className={({ isActive }) =>
-            `flex items-center gap-2.5 w-full rounded-xl text-[12px] font-medium transition-all duration-200 ${
+            `swlz-nav-link flex items-center gap-2.5 w-full transition-all duration-200 ${
               collapsed ? 'justify-center px-0 py-2.5' : 'px-3 py-2.5'
             } ${
               isActive
-                ? 'text-white bg-white/[0.07]'
-                : 'text-white/40 hover:text-white/70 hover:bg-white/[0.04]'
+                ? 'swlz-nav-link-active'
+                : ''
             }`
           }
         >
-          <Clock size={16} strokeWidth={1.8} />
+          <Clock size={utilityIconSize} strokeWidth={1.8} />
           {!collapsed && <span className="truncate">{t('library.history')}</span>}
         </NavLink>
 
@@ -121,12 +121,12 @@ export const Sidebar = React.memo(() => {
               to={`/playlist/${encodeURIComponent(playlist.urn)}`}
               title={collapsed ? playlist.title : undefined}
               className={({ isActive }) =>
-                `flex items-center gap-2.5 w-full rounded-xl text-[12px] font-medium transition-all duration-200 ${
+                `swlz-nav-link flex items-center gap-2.5 w-full transition-all duration-200 ${
                   collapsed ? 'justify-center px-0 py-2.5' : 'px-3 py-2.5'
                 } ${
                   isActive
-                    ? 'text-white bg-white/[0.07]'
-                    : 'text-white/40 hover:text-white/70 hover:bg-white/[0.04]'
+                    ? 'swlz-nav-link-active'
+                    : ''
                 }`
               }
             >
@@ -139,7 +139,7 @@ export const Sidebar = React.memo(() => {
                   loading="lazy"
                 />
               ) : (
-                <ListMusic size={16} strokeWidth={1.8} />
+                <ListMusic size={utilityIconSize} strokeWidth={1.8} />
               )}
               {!collapsed && <span className="truncate">{playlist.title}</span>}
             </NavLink>
@@ -149,21 +149,18 @@ export const Sidebar = React.memo(() => {
 
       <div className="flex-1" />
 
-      <div className="px-2 pb-1 flex flex-col gap-0.5">
-        <div className="mb-1">
-          <StarCard collapsed={collapsed} isPremium={isPremium} onOpenModal={openModal} />
-        </div>
+      <div className="pb-1 flex flex-col gap-2">
         {/* Toggle sidebar */}
         <button
           type="button"
           onClick={toggleSidebar}
           title={collapsed ? t('nav.expand') : undefined}
-          className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-xl text-[12px] font-medium text-white/40 hover:text-white/70 hover:bg-white/[0.04] transition-all duration-200 cursor-pointer ${collapsed ? 'justify-center' : ''}`}
+          className={`swlz-nav-link flex items-center gap-2.5 w-full px-3 py-2 transition-all duration-200 cursor-pointer ${collapsed ? 'justify-center' : ''}`}
         >
           {collapsed ? (
-            <PanelLeftOpen size={16} strokeWidth={1.8} />
+            <PanelLeftOpen size={utilityIconSize} strokeWidth={1.8} />
           ) : (
-            <PanelLeftClose size={16} strokeWidth={1.8} />
+            <PanelLeftClose size={utilityIconSize} strokeWidth={1.8} />
           )}
           {!collapsed && <span className="truncate">{t('nav.collapse')}</span>}
         </button>
@@ -171,58 +168,55 @@ export const Sidebar = React.memo(() => {
           type="button"
           onClick={toggleLanguage}
           title={collapsed ? currentLang.label : undefined}
-          className={`flex items-center gap-2.5 w-full px-3 py-2 rounded-xl text-[12px] font-medium text-white/40 hover:text-white/70 hover:bg-white/[0.04] transition-all duration-200 cursor-pointer ${collapsed ? 'justify-center' : ''}`}
+          className={`swlz-nav-link flex items-center gap-2.5 w-full px-3 py-2 transition-all duration-200 cursor-pointer ${collapsed ? 'justify-center' : ''}`}
         >
-          <Globe size={16} strokeWidth={1.8} />
+          <Globe size={utilityIconSize} strokeWidth={1.8} />
           {!collapsed && <span className="truncate">{currentLang.label}</span>}
         </button>
         <NavLink
           to="/settings"
           title={collapsed ? t('nav.settings') : undefined}
           className={({ isActive }) =>
-            `flex items-center gap-2.5 w-full px-3 py-2 rounded-xl text-[12px] font-medium transition-all duration-200 ${
+            `swlz-nav-link flex items-center gap-2.5 w-full px-3 py-2 transition-all duration-200 ${
               collapsed ? 'justify-center' : ''
             } ${
               isActive
-                ? 'text-white/70 bg-white/[0.07]'
-                : 'text-white/40 hover:text-white/70 hover:bg-white/[0.04]'
+                ? 'swlz-nav-link-active'
+                : ''
             }`
           }
         >
-          <Settings size={16} strokeWidth={1.8} />
+          <Settings size={utilityIconSize} strokeWidth={1.8} />
           {!collapsed && <span className="truncate">{t('nav.settings')}</span>}
         </NavLink>
       </div>
 
       {user && (
-        <div className="px-2 pb-3">
+        <div className="pb-1">
           <NavLink
             to={`/user/${encodeURIComponent(user.urn)}`}
             title={collapsed ? user.username : undefined}
             className={({ isActive }) =>
-              `flex items-center gap-2.5 px-2 py-2.5 rounded-xl transition-all duration-200 cursor-pointer ${
+              `flex items-center gap-2.5 px-3 py-2.5 rounded-[18px] transition-all duration-200 cursor-pointer ${
                 collapsed ? 'justify-center' : ''
               } ${
                 isActive
-                  ? 'bg-white/[0.07] shadow-[inset_0_0.5px_0_rgba(255,255,255,0.1)]'
-                  : 'hover:bg-white/[0.04]'
+                  ? 'bg-white text-black shadow-[inset_0_0.5px_0_rgba(255,255,255,0.1)]'
+                  : 'hover:bg-white/[0.05]'
               }`
             }
           >
             <Avatar src={user.avatar_url} alt={user.username} size={26} />
             {!collapsed && (
               <div className="flex items-center gap-1.5 min-w-0">
-                <span className="text-[12px] text-white/40 truncate font-medium">
+                  <span className="text-[12px] text-white/55 truncate font-black">
                   {user.username}
                 </span>
-                {isPremium && <StarBadge />}
               </div>
             )}
           </NavLink>
         </div>
       )}
-
-      <StarModal open={modalOpen} onOpenChange={setModalOpen} />
     </aside>
   );
 });

@@ -78,7 +78,7 @@ export const BulkDownloadButton = React.memo(function BulkDownloadButton({
       title={active ? t('cache.cancel') : t('cache.bulkCache')}
       className={`inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ease-[var(--ease-apple)] cursor-pointer ${
         active
-          ? 'bg-accent/15 text-accent border border-accent/20 shadow-[0_0_20px_rgba(255,85,0,0.1)]'
+          ? 'bg-accent/15 text-accent border border-accent/20 shadow-[0_0_20px_rgba(255,255,255,0.1)]'
           : 'glass hover:bg-white/[0.05] text-white/60 hover:text-white/80'
       } ${className ?? ''}`}
     >

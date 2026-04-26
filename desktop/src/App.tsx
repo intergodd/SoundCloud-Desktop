@@ -177,6 +177,30 @@ export default function App() {
             <Route element={<AppShell />}>
               <Route index element={<Navigate to="/offline" replace />} />
               <Route
+                path="home"
+                element={
+                  <RouteLoader>
+                    <Home />
+                  </RouteLoader>
+                }
+              />
+              <Route
+                path="search"
+                element={
+                  <RouteLoader>
+                    <Search />
+                  </RouteLoader>
+                }
+              />
+              <Route
+                path="library"
+                element={
+                  <RouteLoader>
+                    <Library />
+                  </RouteLoader>
+                }
+              />
+              <Route
                 path="offline"
                 element={
                   <RouteLoader>
@@ -189,6 +213,30 @@ export default function App() {
                 element={
                   <RouteLoader>
                     <Settings />
+                  </RouteLoader>
+                }
+              />
+              <Route
+                path="track/:urn"
+                element={
+                  <RouteLoader>
+                    <TrackPage />
+                  </RouteLoader>
+                }
+              />
+              <Route
+                path="playlist/:urn"
+                element={
+                  <RouteLoader>
+                    <PlaylistPage />
+                  </RouteLoader>
+                }
+              />
+              <Route
+                path="user/:urn"
+                element={
+                  <RouteLoader>
+                    <UserPage />
                   </RouteLoader>
                 }
               />

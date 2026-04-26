@@ -21,10 +21,10 @@ export interface ThemePresetDef {
 
 export const THEME_PRESETS: Record<Exclude<ThemePreset, 'custom'>, ThemePresetDef> = {
   soundcloud: {
-    accent: '#ff5500',
-    bg: '#08080a',
-    name: 'SoundCloud',
-    preview: ['#ff5500', '#08080a', '#1a1a1e'],
+    accent: '#ffffff',
+    bg: '#050505',
+    name: 'SWLZ',
+    preview: ['#ffffff', '#050505', '#121212'],
   },
   dark: {
     accent: '#ffffff',
@@ -105,8 +105,8 @@ export interface SettingsState {
 const DEFAULT_EQ_GAINS = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
 
 const DEFAULTS = {
-  accentColor: '#ff5500',
-  bgPrimary: '#08080a',
+  accentColor: '#ffffff',
+  bgPrimary: '#050505',
   themePreset: 'soundcloud' as ThemePreset,
   backgroundImage: '',
   backgroundOpacity: 0.15,

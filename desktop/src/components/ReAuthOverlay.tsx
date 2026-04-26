@@ -52,19 +52,17 @@ export const ReAuthOverlay = React.memo(() => {
         <Dialog.Content
           className="fixed left-1/2 top-1/2 z-[101] w-[380px] max-w-[90vw] -translate-x-1/2 -translate-y-1/2 rounded-2xl overflow-hidden outline-none animate-in fade-in zoom-in-95 duration-200"
           style={{
-            background:
-              'linear-gradient(165deg, rgba(22,14,38,0.97), rgba(14,10,28,0.98), rgba(10,8,22,0.99))',
+            background: 'rgba(18,18,18,0.96)',
             border: '0.5px solid rgba(255,255,255,0.08)',
             boxShadow:
-              '0 25px 60px rgba(0,0,0,0.6), 0 0 50px rgba(var(--accent-rgb, 255,85,0),0.08), inset 0 1px 0 rgba(255,255,255,0.04)',
+              '0 25px 60px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.04)',
           }}
         >
           {/* Ambient glow */}
           <div
             className="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-24 pointer-events-none"
             style={{
-              background:
-                'radial-gradient(ellipse, var(--color-accent-glow, rgba(255,85,0,0.15)) 0%, transparent 70%)',
+              background: 'rgba(255,255,255,0.04)',
               transform: 'translateZ(0)',
             }}
           />

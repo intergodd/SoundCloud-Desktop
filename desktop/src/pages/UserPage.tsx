@@ -147,7 +147,7 @@ const TrackRow = React.memo(
       <div
         className={`group flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 ease-[var(--ease-apple)] select-none ${
           isThis
-            ? 'bg-accent/[0.06] ring-1 ring-accent/20 shadow-[inset_0_0_20px_rgba(255,85,0,0.05)]'
+            ? 'bg-accent/[0.06] ring-1 ring-accent/20 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]'
             : 'hover:bg-white/[0.04]'
         }`}
         onMouseEnter={() => preloadTrack(track.urn)}
@@ -178,7 +178,7 @@ const TrackRow = React.memo(
           {cover ? (
             <img src={cover} alt="" className="w-full h-full object-cover" decoding="async" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/[0.05] to-transparent">
+            <div className="w-full h-full flex items-center justify-center bg-white/[0.04]">
               <Music size={14} className="text-white/20" />
             </div>
           )}
@@ -189,7 +189,7 @@ const TrackRow = React.memo(
           <p
             className={`text-[14px] font-medium truncate cursor-pointer transition-colors duration-200 ${
               isThis
-                ? 'text-accent drop-shadow-[0_0_8px_rgba(255,85,0,0.4)]'
+                ? 'text-accent drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]'
                 : 'text-white/90 hover:text-white'
             }`}
             onClick={() => navigate(`/track/${encodeURIComponent(track.urn)}`)}
@@ -531,7 +531,7 @@ export function UserPage() {
                 className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/[0.05] to-transparent">
+              <div className="w-full h-full flex items-center justify-center bg-white/[0.04]">
                 <Users size={64} className="text-white/20" />
               </div>
             )}

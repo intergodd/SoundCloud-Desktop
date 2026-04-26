@@ -26,23 +26,17 @@ export function Login() {
   };
 
   return (
-    <div className="h-screen flex items-center justify-center relative overflow-hidden">
-      <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-accent/[0.04] blur-[120px]" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-purple-500/[0.03] blur-[120px]" />
-      </div>
-
-      <div className="relative flex flex-col items-center gap-8 max-w-sm w-full mx-4">
+    <div className="h-screen flex items-center justify-center relative overflow-hidden bg-[var(--swlz-bg)]">
+      <div className="relative flex flex-col items-center gap-8 max-w-sm w-full mx-4 rounded-[24px] border border-white/[0.09] bg-white/[0.035] p-8 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
         <div className="relative">
-          <div className="absolute inset-0 bg-accent/20 blur-2xl rounded-full scale-150" />
-          <div className="relative w-20 h-20 rounded-[22px] bg-white/[0.04] backdrop-blur-xl border border-white/[0.08] flex items-center justify-center shadow-[0_0_40px_rgba(255,85,0,0.1)]">
-            <Disc3 size={36} className="text-accent" strokeWidth={1.5} />
+          <div className="relative w-20 h-20 rounded-[22px] bg-white text-black border border-white flex items-center justify-center shadow-[0_20px_50px_rgba(0,0,0,0.36)]">
+            <Disc3 size={36} className="text-black" strokeWidth={1.5} />
           </div>
         </div>
 
         <div className="text-center">
-          <h1 className="text-2xl font-bold tracking-tight">SoundCloud Desktop</h1>
-          <p className="text-[13px] text-white/30 mt-2">
+          <h1 className="text-2xl font-black tracking-normal uppercase">SoundCloud Desktop</h1>
+          <p className="text-[13px] text-white/45 mt-2 font-bold">
             {isPolling ? t('auth.signingIn') : 'Your music, your way'}
           </p>
         </div>
@@ -79,7 +73,7 @@ export function Login() {
           <button
             type="button"
             onClick={handleLogin}
-            className="w-full py-3.5 rounded-2xl bg-accent text-accent-contrast font-semibold text-sm hover:bg-accent-hover active:scale-[0.97] transition-all duration-200 ease-[var(--ease-apple)] cursor-pointer shadow-[0_0_40px_var(--color-accent-glow),0_4px_12px_rgba(0,0,0,0.3)] hover:shadow-[0_0_60px_var(--color-accent-glow),0_4px_16px_rgba(0,0,0,0.4)]"
+            className="w-full py-3.5 rounded-[18px] bg-accent text-accent-contrast font-black text-sm hover:bg-accent-hover active:scale-[0.97] transition-all duration-200 ease-[var(--ease-apple)] cursor-pointer shadow-[0_18px_44px_rgba(0,0,0,0.34)]"
           >
             {t('auth.signIn')}
           </button>

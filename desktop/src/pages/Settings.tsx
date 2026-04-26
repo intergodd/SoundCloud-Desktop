@@ -16,7 +16,7 @@ import {
   saveWallpaperFromBuffer,
 } from '../lib/cache';
 import { trackedInvoke } from '../lib/diagnostics';
-import { Globe, Link, Loader2, Star, Trash2, X } from '../lib/icons';
+import { Globe, Link, Loader2, Trash2, X } from '../lib/icons';
 import { useSubscription } from '../lib/subscription';
 import { useAuthStore } from '../stores/auth';
 import {
@@ -35,16 +35,16 @@ function formatBytes(bytes: number): string {
 }
 
 const PRESET_COLORS = [
-  '#ff5500',
-  '#ff3366',
-  '#7c3aed',
-  '#3b82f6',
+  '#ffffff',
+  '#d9d9d9',
+  '#a1a1a1',
+  '#ff2056',
   '#06b6d4',
-  '#10b981',
-  '#eab308',
-  '#ef4444',
-  '#f97316',
+  '#22c55e',
+  '#3b82f6',
   '#8b5cf6',
+  '#f97316',
+  '#ef4444',
 ];
 
 const LANGUAGES = [
@@ -804,20 +804,8 @@ const PlaybackSection = React.memo(function PlaybackSection() {
             />
           </button>
         ) : (
-          <div className="flex items-center gap-2">
-            <span
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold text-purple-300/80"
-              style={{
-                background: 'linear-gradient(135deg, rgba(139,92,246,0.2), rgba(168,85,247,0.12))',
-                border: '0.5px solid rgba(168,85,247,0.25)',
-              }}
-            >
-              <Star size={10} fill="currentColor" className="text-amber-400" />
-              Star
-            </span>
-            <div className="w-11 h-6 rounded-full bg-white/10 relative opacity-40 cursor-not-allowed">
-              <div className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full shadow-md bg-white" />
-            </div>
+          <div className="w-11 h-6 rounded-full bg-white/10 relative opacity-40 cursor-not-allowed">
+            <div className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full shadow-md bg-white" />
           </div>
         )}
       </div>
@@ -842,20 +830,8 @@ const PlaybackSection = React.memo(function PlaybackSection() {
             />
           </button>
         ) : (
-          <div className="flex items-center gap-2">
-            <span
-              className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold text-purple-300/80"
-              style={{
-                background: 'linear-gradient(135deg, rgba(139,92,246,0.2), rgba(168,85,247,0.12))',
-                border: '0.5px solid rgba(168,85,247,0.25)',
-              }}
-            >
-              <Star size={10} fill="currentColor" className="text-amber-400" />
-              Star
-            </span>
-            <div className="w-11 h-6 rounded-full bg-white/10 relative opacity-40 cursor-not-allowed">
-              <div className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full shadow-md bg-white" />
-            </div>
+          <div className="w-11 h-6 rounded-full bg-white/10 relative opacity-40 cursor-not-allowed">
+            <div className="absolute top-0.5 left-0.5 w-5 h-5 rounded-full shadow-md bg-white" />
           </div>
         )}
       </div>

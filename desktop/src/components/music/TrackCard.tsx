@@ -40,7 +40,7 @@ export const TrackCard = React.memo(
       >
         {/* Artwork */}
         <div
-          className="relative aspect-square rounded-2xl overflow-hidden bg-white/[0.03] cursor-pointer ring-1 ring-white/[0.06] group-hover:ring-white/[0.12] transition-all duration-300 ease-[var(--ease-apple)]"
+          className="swlz-card-art relative aspect-square overflow-hidden bg-white/[0.03] cursor-pointer group-hover:border-white/[0.16] transition-all duration-300 ease-[var(--ease-apple)]"
           onClick={togglePlay}
         >
           {artwork ? (
@@ -76,7 +76,7 @@ export const TrackCard = React.memo(
 
           {/* Duration pill */}
           <div className="absolute bottom-2 right-2 flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-            <div className="text-[10px] font-medium bg-black/50 backdrop-blur-md text-white/80 px-2 py-0.5 rounded-full">
+            <div className="text-[10px] font-black bg-black/70 text-white/85 px-2 py-0.5 rounded-full border border-white/[0.09]">
               {dur(track.duration)}
             </div>
           </div>
@@ -90,7 +90,7 @@ export const TrackCard = React.memo(
               <button
                 type="button"
                 onClick={(e) => e.stopPropagation()}
-                className="cursor-pointer w-8 h-8 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white/80 hover:text-white hover:bg-black/70 transition-all duration-200"
+                className="cursor-pointer w-8 h-8 rounded-[12px] bg-black/70 border border-white/[0.09] flex items-center justify-center text-white/80 hover:text-white hover:bg-white/[0.08] transition-all duration-200"
                 title={t('playlist.addToPlaylist')}
               >
                 <ListPlus size={14} />
@@ -99,7 +99,7 @@ export const TrackCard = React.memo(
             <button
               type="button"
               onClick={handleAddToQueue}
-              className="cursor-pointer w-8 h-8 rounded-full bg-black/50 backdrop-blur-md flex items-center justify-center text-white/80 hover:text-white hover:bg-black/70 transition-all duration-200"
+              className="cursor-pointer w-8 h-8 rounded-[12px] bg-black/70 border border-white/[0.09] flex items-center justify-center text-white/80 hover:text-white hover:bg-white/[0.08] transition-all duration-200"
               title={t('player.addToQueue')}
             >
               <ListMusic size={14} />
@@ -110,19 +110,19 @@ export const TrackCard = React.memo(
         {/* Info */}
         <div className="mt-3 min-w-0">
           <p
-            className="text-[13px] font-medium text-white/90 truncate leading-snug cursor-pointer hover:text-white transition-colors duration-150"
+            className="text-[13px] font-black text-white/95 truncate leading-snug cursor-pointer hover:text-white transition-colors duration-150"
             onClick={() => navigate(`/track/${encodeURIComponent(track.urn)}`)}
           >
             {track.title}
           </p>
           <p
-            className="text-[11px] text-white/35 truncate mt-0.5 cursor-pointer hover:text-white/55 transition-colors duration-150"
+            className="text-[11px] text-white/45 truncate mt-0.5 cursor-pointer hover:text-white/65 transition-colors duration-150"
             onClick={() => navigate(`/user/${encodeURIComponent(track.user.urn)}`)}
           >
             {track.user.username}
           </p>
           {track.playback_count != null && (
-            <p className="text-[10px] text-white/20 mt-1 tabular-nums">
+            <p className="text-[10px] text-white/30 mt-1 tabular-nums font-bold">
               {fc(track.playback_count)} plays
             </p>
           )}

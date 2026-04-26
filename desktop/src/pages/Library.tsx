@@ -77,7 +77,7 @@ const LibraryTrackRow = React.memo(
       <div
         className={`group flex items-center gap-4 px-4 py-3 rounded-2xl transition-all duration-300 ease-[var(--ease-apple)] ${
           isThis
-            ? 'bg-accent/[0.06] ring-1 ring-accent/20 shadow-[inset_0_0_20px_rgba(255,85,0,0.05)]'
+            ? 'bg-accent/[0.06] ring-1 ring-accent/20 shadow-[inset_0_0_20px_rgba(255,255,255,0.05)]'
             : 'hover:bg-white/[0.04]'
         }`}
       >
@@ -106,7 +106,7 @@ const LibraryTrackRow = React.memo(
           {cover ? (
             <img src={cover} alt="" className="w-full h-full object-cover" decoding="async" />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/[0.05] to-transparent">
+            <div className="w-full h-full flex items-center justify-center bg-white/[0.04]">
               <Music size={14} className="text-white/20" />
             </div>
           )}
@@ -116,7 +116,7 @@ const LibraryTrackRow = React.memo(
           <p
             className={`text-[14px] font-medium truncate cursor-pointer transition-colors duration-200 ${
               isThis
-                ? 'text-accent drop-shadow-[0_0_8px_rgba(255,85,0,0.4)]'
+                ? 'text-accent drop-shadow-[0_0_8px_rgba(255,255,255,0.4)]'
                 : 'text-white/90 hover:text-white'
             }`}
             onClick={() => navigate(`/track/${encodeURIComponent(track.urn)}`)}
@@ -256,7 +256,7 @@ const LibraryHero = React.memo(function LibraryHero({
         className="relative h-[240px] rounded-[32px] overflow-hidden p-8 flex flex-col justify-between group cursor-pointer shadow-2xl transition-transform active:scale-[0.99]"
         onClick={onTabLikes}
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-violet-500/20 via-fuchsia-500/10 to-orange-500/20" />
+        <div className="absolute inset-0 bg-white/[0.04]" />
         <div className="absolute inset-0 backdrop-blur-[40px] bg-white/[0.03] border border-white/[0.08] rounded-[32px]" />
 
         <div className="relative z-10">
@@ -305,7 +305,7 @@ const LibraryHero = React.memo(function LibraryHero({
         className="relative h-[240px] rounded-[32px] overflow-hidden p-8 flex flex-col justify-between group cursor-pointer shadow-2xl transition-transform active:scale-[0.99]"
         onClick={onTabFollowing}
       >
-        <div className="absolute inset-0 bg-gradient-to-bl from-blue-500/10 via-cyan-500/10 to-emerald-500/10" />
+        <div className="absolute inset-0 bg-white/[0.035]" />
         <div className="absolute inset-0 backdrop-blur-[40px] bg-white/[0.02] border border-white/[0.08] rounded-[32px]" />
 
         <div className="relative z-10">
@@ -700,7 +700,7 @@ const HistoryTab = React.memo(function HistoryTab() {
                       decoding="async"
                     />
                   ) : (
-                    <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/[0.05] to-transparent">
+                    <div className="w-full h-full flex items-center justify-center bg-white/[0.04]">
                       <Music size={14} className="text-white/20" />
                     </div>
                   )}

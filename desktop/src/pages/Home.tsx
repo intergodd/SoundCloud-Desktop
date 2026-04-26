@@ -72,16 +72,16 @@ function SectionHeader({
   return (
     <div className="flex items-center justify-between mb-5">
       <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-xl bg-white/[0.04] border border-white/[0.06] flex items-center justify-center">
+        <div className="w-9 h-9 rounded-[16px] bg-white text-black border border-white flex items-center justify-center">
           {icon}
         </div>
-        <h2 className="text-[15px] font-semibold tracking-tight text-white/90">{title}</h2>
+        <h2 className="text-[15px] font-black tracking-normal text-white/95 uppercase">{title}</h2>
       </div>
       {onSeeAll && (
         <button
           type="button"
           onClick={onSeeAll}
-          className="flex items-center gap-1 text-[11px] text-white/30 hover:text-white/60 transition-colors duration-200 cursor-pointer"
+          className="flex items-center gap-1 text-[11px] text-white/45 hover:text-white transition-colors duration-200 cursor-pointer font-black uppercase"
         >
           {t('common.seeAll')}
           <ChevronRight size={12} />
@@ -165,7 +165,7 @@ const FeaturedCard = React.memo(
               className="w-full h-full object-cover scale-[1.4] blur-[80px] opacity-20 saturate-150"
               decoding="async"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[rgb(8,8,10)]/70 via-[rgb(8,8,10)]/50 to-[rgb(8,8,10)]/70" />
+            <div className="absolute inset-0 bg-black/65" />
           </div>
         )}
 
@@ -173,7 +173,7 @@ const FeaturedCard = React.memo(
         <div className="relative flex items-center gap-6 p-6">
           {/* Artwork */}
           <div
-            className="relative w-[160px] h-[160px] rounded-2xl overflow-hidden shrink-0 shadow-2xl ring-1 ring-white/[0.1] cursor-pointer group/cover"
+            className="swlz-card-art relative w-[160px] h-[160px] overflow-hidden shrink-0 shadow-2xl cursor-pointer group/cover"
             onClick={togglePlay}
           >
             {cover ? (
@@ -185,7 +185,7 @@ const FeaturedCard = React.memo(
                 fetchPriority="high"
               />
             ) : (
-              <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/[0.04] to-white/[0.01]">
+              <div className="w-full h-full flex items-center justify-center bg-white/[0.04]">
                 <Music size={40} className="text-white/15" />
               </div>
             )}
@@ -222,7 +222,7 @@ const FeaturedCard = React.memo(
             )}
 
             <h2
-              className="text-xl font-bold text-white/95 truncate leading-tight cursor-pointer hover:text-white transition-colors duration-200"
+              className="text-xl font-black text-white/95 truncate leading-tight cursor-pointer hover:text-white transition-colors duration-200"
               onClick={() => navigate(`/track/${encodeURIComponent(track.urn)}`)}
             >
               {track.title}
@@ -247,7 +247,7 @@ const FeaturedCard = React.memo(
 
             <div className="flex items-center gap-3 mt-4 flex-wrap">
               {track.genre && (
-                <span className="text-[10px] font-medium px-2.5 py-1 rounded-full bg-white/[0.06] text-white/45 border border-white/[0.06]">
+                <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-white/[0.06] text-white/55 border border-white/[0.09] uppercase">
                   {track.genre}
                 </span>
               )}
@@ -317,7 +317,7 @@ const FeedTrackCard = React.memo(
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/[0.04] to-white/[0.01]">
+            <div className="w-full h-full flex items-center justify-center bg-white/[0.04]">
               {musicIcon22}
             </div>
           )}
@@ -472,7 +472,7 @@ const FeedPlaylistCard = React.memo(
               loading="lazy"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/[0.04] to-white/[0.01]">
+            <div className="w-full h-full flex items-center justify-center bg-white/[0.04]">
               <ListMusic size={22} className="text-white/15" />
             </div>
           )}
@@ -614,13 +614,13 @@ const FeaturedPlaylistHero = React.memo(function FeaturedPlaylistHero({
             className="w-full h-full object-cover scale-[1.4] blur-[80px] opacity-20 saturate-150"
             decoding="async"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[rgb(8,8,10)]/70 via-[rgb(8,8,10)]/50 to-[rgb(8,8,10)]/70" />
+          <div className="absolute inset-0 bg-black/65" />
         </div>
       )}
 
       <div className="relative flex items-center gap-6 p-6">
         <div
-          className="relative w-[160px] h-[160px] rounded-2xl overflow-hidden shrink-0 shadow-2xl ring-1 ring-white/[0.1] cursor-pointer group/cover"
+          className="swlz-card-art relative w-[160px] h-[160px] overflow-hidden shrink-0 shadow-2xl cursor-pointer group/cover"
           onClick={handlePlay}
         >
           {cover ? (
@@ -632,7 +632,7 @@ const FeaturedPlaylistHero = React.memo(function FeaturedPlaylistHero({
               fetchPriority="high"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/[0.04] to-white/[0.01]">
+            <div className="w-full h-full flex items-center justify-center bg-white/[0.04]">
               <ListMusic size={40} className="text-white/15" />
             </div>
           )}
@@ -664,7 +664,7 @@ const FeaturedPlaylistHero = React.memo(function FeaturedPlaylistHero({
           </div>
 
           <h2
-            className="text-xl font-bold text-white/95 truncate leading-tight cursor-pointer hover:text-white transition-colors duration-200"
+            className="text-xl font-black text-white/95 truncate leading-tight cursor-pointer hover:text-white transition-colors duration-200"
             onClick={() => navigate(`/playlist/${encodeURIComponent(playlist.urn)}`)}
           >
             {playlist.title}
@@ -691,7 +691,7 @@ const FeaturedPlaylistHero = React.memo(function FeaturedPlaylistHero({
 
           <div className="flex items-center gap-3 mt-4 text-[11px] text-white/25 tabular-nums">
             {playlist.genre && (
-              <span className="text-[10px] font-medium px-2.5 py-1 rounded-full bg-white/[0.06] text-white/45 border border-white/[0.06]">
+              <span className="text-[10px] font-black px-2.5 py-1 rounded-full bg-white/[0.06] text-white/55 border border-white/[0.09] uppercase">
                 {playlist.genre}
               </span>
             )}
@@ -744,7 +744,7 @@ const FeaturedUserHero = React.memo(function FeaturedUserHero({ user }: { user: 
             className="w-full h-full object-cover scale-[1.4] blur-[80px] opacity-20 saturate-150"
             decoding="async"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-[rgb(8,8,10)]/70 via-[rgb(8,8,10)]/50 to-[rgb(8,8,10)]/70" />
+          <div className="absolute inset-0 bg-black/65" />
         </div>
       )}
 
@@ -759,14 +759,14 @@ const FeaturedUserHero = React.memo(function FeaturedUserHero({ user }: { user: 
               fetchPriority="high"
             />
           ) : (
-            <div className="w-full h-full flex items-center justify-center bg-gradient-to-br from-white/[0.04] to-white/[0.01]">
+            <div className="w-full h-full flex items-center justify-center bg-white/[0.04]">
               <Music size={40} className="text-white/15" />
             </div>
           )}
         </div>
 
         <div className="flex-1 min-w-0 py-1">
-          <h2 className="text-xl font-bold text-white/95 truncate leading-tight group-hover:text-white transition-colors duration-200">
+          <h2 className="text-xl font-black text-white/95 truncate leading-tight group-hover:text-white transition-colors duration-200">
             {user.username}
           </h2>
 
@@ -1147,14 +1147,14 @@ export function Home() {
   );
 
   return (
-    <div className="p-6 pb-4 space-y-8">
+    <div className="p-5 pb-4 space-y-8">
       {/* Hero Greeting — no data hooks, won't re-render */}
       <section className="pt-1">
-        <h1 className="hero-greeting text-3xl font-bold tracking-tight leading-tight pb-1">
+        <h1 className="hero-greeting text-[28px] font-black tracking-normal leading-tight pb-1 uppercase">
           {t(greetingKey())}
           {user?.username ? `, ${user.username}` : ''}
         </h1>
-        <div className="mt-3 h-px bg-gradient-to-r from-white/[0.06] via-white/[0.03] to-transparent" />
+        <div className="swlz-section-rule mt-4" />
       </section>
 
       {/* Each section is isolated — own hooks, own re-render boundary */}
