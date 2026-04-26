@@ -267,7 +267,8 @@ body,
 
 .swlz-main {
   position: relative;
-  overflow: hidden;
+  overflow-y: auto;
+  overflow-x: hidden;
   border: 1px solid var(--swlz-liquid-line);
   border-radius: var(--swlz-radius);
   background: rgba(12, 12, 12, 0.48);

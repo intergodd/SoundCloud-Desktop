@@ -5,6 +5,7 @@ import type { PlaybackQuality, PlaybackSource } from '../stores/player';
 import { useSettingsStore } from '../stores/settings';
 import { getStaticPort } from './constants';
 import { trackedInvoke as invoke } from './diagnostics';
+import { startStreamingHealthMonitor } from './streaming-health';
 
 const ASSETS_DIR = 'assets';
 const WALLPAPERS_DIR = 'wallpapers';
@@ -133,6 +134,8 @@ export function setupCacheMaintenance() {
   for (const eventName of ['mousemove', 'mousedown', 'keydown', 'touchstart', 'focus']) {
     window.addEventListener(eventName, markUserActive, { passive: true });
   }
+
+  startStreamingHealthMonitor();
 
   void enforceAudioCacheLimit();
 

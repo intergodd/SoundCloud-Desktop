@@ -4,7 +4,13 @@ import { useAppStatusStore } from '../stores/app-status';
 import { useSessionExpiryStore } from '../stores/session-expiry';
 import { useSettingsStore } from '../stores/settings';
 import { API_BASE, BYPASS_API_BASE } from './constants';
-import { logHttpError, logHttpFailure, trackAsync } from './diagnostics';
+import {
+  isTauri,
+  logHttpError,
+  logHttpFailure,
+  TauriUnavailableError,
+  trackAsync,
+} from './diagnostics';
 import { isHealthy, markHealthy, markUnhealthy } from './host-health';
 import { getIsPremium } from './premium-cache';
 
@@ -65,6 +71,7 @@ function fetchWithTimeout(
   options: RequestInit,
   timeoutMs = 10_000,
 ): Promise<Response> {
+  if (!isTauri()) return Promise.reject(new TauriUnavailableError(`http_fetch ${url}`));
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), timeoutMs);
   return fetch(url, { ...options, signal: controller.signal }).finally(() =>
@@ -73,6 +80,7 @@ function fetchWithTimeout(
 }
 
 function handleApiError(err: ApiError): void {
+  if (err.status === 429) return; // rate-limit: silent (UI already retried)
   if (err.status >= 500) {
     toast.error(`Server error (${err.status})`);
   } else if (err.status >= 400 && err.status !== 401) {
@@ -85,6 +93,22 @@ function handleApiError(err: ApiError): void {
   }
 }
 
+const RATE_LIMIT_MAX_RETRIES = 3;
+const RATE_LIMIT_BASE_DELAY_MS = 800;
+
+function rateLimitDelay(res: Response, attempt: number): number {
+  const header = res.headers.get('Retry-After');
+  if (header) {
+    const seconds = Number.parseFloat(header);
+    if (Number.isFinite(seconds) && seconds > 0) return Math.min(seconds * 1000, 8000);
+  }
+  return RATE_LIMIT_BASE_DELAY_MS * 2 ** attempt;
+}
+
+function sleep(ms: number) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
+
 // ─── Main API client ────────────────────────────────────────
 
 export async function apiRequest<T = unknown>(path: string, options: RequestInit = {}): Promise<T> {
@@ -95,6 +119,7 @@ export async function apiRequest<T = unknown>(path: string, options: RequestInit
   const bases = resolveApiBases(path);
   const method = options.method ?? 'GET';
   let lastError: unknown = null;
+  let rateLimitAttempt = 0;
 
   const label = `${method.toUpperCase()} ${path}`;
 
@@ -108,17 +133,29 @@ export async function apiRequest<T = unknown>(path: string, options: RequestInit
       useAppStatusStore.getState().setBackendReachable(true);
 
       if (!res.ok) {
+        // 429: silent backoff retry, don't burn through hosts on the same broken request
+        if (res.status === 429 && rateLimitAttempt < RATE_LIMIT_MAX_RETRIES) {
+          await sleep(rateLimitDelay(res, rateLimitAttempt));
+          rateLimitAttempt++;
+          i--; // retry same base
+          continue;
+        }
+
         const body = await res.text();
         const err = new ApiError(res.status, body);
         logHttpError(label, res.status, url, body);
 
-        // 401: only show re-auth modal for actual session expiry, not missing headers
-        if (res.status === 401) {
-          const isSessionExpiry =
-            body.includes('Session not found') ||
-            body.includes('Refresh token expired') ||
-            body.includes('re-authenticate');
-          if (isSessionExpiry) {
+        // Backend lost the user↔session binding (e.g. OAuth callback never completed,
+        // or backend DB row was wiped). Treat as expired session — show re-auth modal
+        // and stop hammering the same broken sessionId across all hosts.
+        const isOrphanSession =
+          body.includes('User not found in session') ||
+          body.includes('Session not found') ||
+          body.includes('Refresh token expired') ||
+          body.includes('re-authenticate');
+
+        if (res.status === 401 || (res.status === 500 && isOrphanSession)) {
+          if (isOrphanSession) {
             useSessionExpiryStore.getState().setSessionExpired(true);
           }
           console.error(`HTTP ERROR: url: ${path}, `, err);

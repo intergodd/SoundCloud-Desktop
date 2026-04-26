@@ -1,4 +1,3 @@
-import { listen } from '@tauri-apps/api/event';
 import { toast } from 'sonner';
 import i18n from '../i18n';
 import type { Track } from '../stores/player';
@@ -17,7 +16,7 @@ import {
   getCacheInfo,
   type TrackCacheInfo,
 } from './cache';
-import { trackedInvoke as invoke } from './diagnostics';
+import { trackedInvoke as invoke, safeListen as listen } from './diagnostics';
 import { art } from './formatters';
 import { rememberTracks } from './offline-index';
 

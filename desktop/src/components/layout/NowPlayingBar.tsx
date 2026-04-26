@@ -169,7 +169,7 @@ export const ProgressSlider = React.memo(({ compact = false }: { compact?: boole
     <Slider.Root
       className={
         compact
-          ? 'absolute left-5 right-5 top-0 z-10 flex items-center h-2 cursor-pointer group select-none touch-none'
+          ? 'absolute left-5 right-5 bottom-0 z-10 flex items-center h-2.5 cursor-pointer group select-none touch-none'
           : 'relative flex items-center w-full h-5 cursor-pointer group select-none touch-none'
       }
       value={[displayValue]}
@@ -180,7 +180,7 @@ export const ProgressSlider = React.memo(({ compact = false }: { compact?: boole
     >
       <Slider.Track
         className={`relative grow rounded-full bg-white/[0.08] transition-all duration-150 ${
-          compact ? 'h-[2px] group-hover:h-[3px]' : 'h-[3px] group-hover:h-[5px]'
+          compact ? 'h-[3px] group-hover:h-[4px]' : 'h-[3px] group-hover:h-[5px]'
         }`}
       >
         <Slider.Range
@@ -190,7 +190,7 @@ export const ProgressSlider = React.memo(({ compact = false }: { compact?: boole
       </Slider.Track>
       <Slider.Thumb
         ref={thumbRef}
-        className="block w-3 h-3 rounded-full bg-accent shadow-[0_0_10px_var(--color-accent-glow)] scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-150 outline-none will-change-transform"
+        className={`block ${compact ? 'w-2.5 h-2.5' : 'w-3 h-3'} rounded-full bg-accent shadow-[0_0_10px_var(--color-accent-glow)] scale-0 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-150 outline-none will-change-transform`}
       />
     </Slider.Root>
   );
@@ -580,15 +580,12 @@ export const NowPlayingBar = React.memo(
             <TrackInfo />
 
             {/* Center: controls */}
-            <div className="flex-1 flex flex-col items-center gap-0.5">
-              <div className="flex items-center gap-0.5">
-                <ShuffleBtn />
-                <PrevBtn />
-                <PlayPauseBtn />
-                <NextBtn />
-                <RepeatBtn />
-              </div>
-              <ProgressTime />
+            <div className="flex-1 flex items-center justify-center gap-0.5">
+              <ShuffleBtn />
+              <PrevBtn />
+              <PlayPauseBtn />
+              <NextBtn />
+              <RepeatBtn />
             </div>
 
             {/* Right: volume + queue */}

@@ -1,4 +1,5 @@
 import { invoke as coreInvoke } from '@tauri-apps/api/core';
+import { listen as coreListen, type EventCallback, type UnlistenFn } from '@tauri-apps/api/event';
 
 const EVENT_LOOP_TICK_MS = 1000;
 const EVENT_LOOP_WARN_MS = 500;
@@ -7,11 +8,26 @@ const ASYNC_WARN_MS = 2500;
 
 let watchdogStarted = false;
 
+export class TauriUnavailableError extends Error {
+  constructor(command: string) {
+    super(`Tauri runtime is not available (command: ${command})`);
+    this.name = 'TauriUnavailableError';
+  }
+}
+
+export function isTauri(): boolean {
+  return (
+    typeof window !== 'undefined' &&
+    Boolean((window as Window & { __TAURI_INTERNALS__?: unknown }).__TAURI_INTERNALS__)
+  );
+}
+
 function roundMs(value: number) {
   return Math.round(value);
 }
 
 function writeLog(level: 'INFO' | 'WARN' | 'ERROR', message: string) {
+  if (!isTauri()) return;
   void coreInvoke('diagnostics_log', { level, message }).catch(() => undefined);
 }
 
@@ -52,6 +68,10 @@ export function setupUiWatchdog() {
   });
 
   window.addEventListener('unhandledrejection', (event) => {
+    if (event.reason instanceof TauriUnavailableError) {
+      event.preventDefault();
+      return;
+    }
     logError(`[UI] Unhandled rejection: ${String(event.reason)}`);
   });
 }
@@ -74,6 +94,7 @@ export function logHttpError(
 }
 
 export function logHttpFailure(label: string, url: string, error: unknown) {
+  if (error instanceof TauriUnavailableError) return;
   logError(`[Perf] HTTP FAIL ${label} ${url} | error=${String(error)}`);
 }
 
@@ -90,7 +111,9 @@ export async function trackAsync<T>(
   try {
     return await promise;
   } catch (error) {
-    logError(`[Perf] Task failed: ${label}: ${String(error)}`);
+    if (!(error instanceof TauriUnavailableError)) {
+      logError(`[Perf] Task failed: ${label}: ${String(error)}`);
+    }
     throw error;
   } finally {
     window.clearTimeout(slowTimer);
@@ -106,5 +129,13 @@ export function trackedInvoke<T>(
   args?: Record<string, unknown>,
   warnMs = INVOKE_WARN_MS,
 ): Promise<T> {
+  if (!isTauri()) return Promise.reject(new TauriUnavailableError(command));
   return trackAsync(`invoke:${command}`, coreInvoke<T>(command, args), warnMs);
+}
+
+const NOOP_UNLISTEN: UnlistenFn = () => {};
+
+export function safeListen<T>(event: string, handler: EventCallback<T>): Promise<UnlistenFn> {
+  if (!isTauri()) return Promise.resolve(NOOP_UNLISTEN);
+  return coreListen<T>(event, handler);
 }

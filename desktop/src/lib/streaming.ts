@@ -22,27 +22,28 @@ export type ResolvedStreamingTrack = Partial<Track> & {
 
 // ─── Host resolution ────────────────────────────────────────
 
+function rankByHealth(bases: string[]): string[] {
+  // Drop unhealthy hosts entirely; if everything is unhealthy, keep them as last-resort.
+  const healthy = bases.filter(isHealthy);
+  return healthy.length > 0 ? healthy : bases;
+}
+
 function resolveStreamingBases(): string[] {
   const bypass = useSettingsStore.getState().bypassWhitelist;
   const premium = getIsPremium();
 
   if (bypass && premium) {
-    // All 4 bases, healthy first
-    const all = [
-      BYPASS_STREAMING_PREMIUM_BASE,
-      BYPASS_STREAMING_BASE,
-      STREAMING_PREMIUM_BASE,
-      STREAMING_BASE,
-    ];
-    const unique = [...new Set(all)];
-    return unique.sort((a, b) => {
-      const aH = isHealthy(a) ? 0 : 1;
-      const bH = isHealthy(b) ? 0 : 1;
-      return aH - bH;
-    });
+    return rankByHealth([
+      ...new Set([
+        BYPASS_STREAMING_PREMIUM_BASE,
+        BYPASS_STREAMING_BASE,
+        STREAMING_PREMIUM_BASE,
+        STREAMING_BASE,
+      ]),
+    ]);
   }
 
-  return [...new Set([STREAMING_PREMIUM_BASE, STREAMING_BASE])];
+  return rankByHealth([...new Set([STREAMING_PREMIUM_BASE, STREAMING_BASE])]);
 }
 
 // ─── Streaming JSON ─────────────────────────────────────────
@@ -108,8 +109,9 @@ export function buildStorageUrls(
 ): string[] {
   const path = `${hq ? 'hq' : 'sq'}/${trackUrn.replace(/:/g, '_')}.ogg`;
   const bypass = useSettingsStore.getState().bypassWhitelist;
-  const bases = bypass && getIsPremium() ? [BYPASS_STORAGE_BASE, STORAGE_BASE] : [STORAGE_BASE];
-  return [...new Set(bases)].map((base) => `${base}/${path}`);
+  const allBases = bypass && getIsPremium() ? [BYPASS_STORAGE_BASE, STORAGE_BASE] : [STORAGE_BASE];
+  const bases = rankByHealth([...new Set(allBases)]);
+  return bases.map((base) => `${base}/${path}`);
 }
 
 export function streamFallbackUrls(

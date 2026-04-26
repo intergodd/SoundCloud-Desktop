@@ -1,8 +1,7 @@
-import { listen } from '@tauri-apps/api/event';
 import { create } from 'zustand';
 import { api, getSessionId } from '../lib/api';
 import { API_BASE } from '../lib/constants';
-import { trackedInvoke as invoke } from '../lib/diagnostics';
+import { trackedInvoke as invoke, safeListen as listen } from '../lib/diagnostics';
 import { queryClient } from '../lib/query-client';
 
 const PLAYLIST_NAME = 'Yandex Music';
